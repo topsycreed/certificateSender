@@ -1,17 +1,16 @@
 package chursov;
 
-import jakarta.mail.Authenticator;
-import jakarta.mail.BodyPart;
-import jakarta.mail.Message;
-import jakarta.mail.Multipart;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeBodyPart;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.internet.MimeMultipart;
-
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.util.Properties;
 
@@ -33,7 +32,10 @@ public class EmailService {
 
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(CONFIG.getProperty("email.user"), CONFIG.getProperty("email.password"));
+                return new PasswordAuthentication(
+                        CONFIG.getProperty("email.user"),
+                        CONFIG.getProperty("email.password")
+                );
             }
         });
 
@@ -44,20 +46,28 @@ public class EmailService {
 
         Multipart multipart = new MimeMultipart();
 
-        // HTML content
-        BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(html, "text/html; charset=utf-8");
-        multipart.addBodyPart(messageBodyPart);
+        // HTML body
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(html, "text/html; charset=utf-8");
+        multipart.addBodyPart(htmlPart);
 
-        // Attachment
-        MimeBodyPart attachment = new MimeBodyPart();
-        attachment.attachFile(new File(certPathRu));
-        attachment.attachFile(new File(certPathEn));
-        multipart.addBodyPart(attachment);
+        // Attachment: Russian certificate
+        MimeBodyPart ruAttachment = new MimeBodyPart();
+        ruAttachment.attachFile(new File(certPathRu));
+        ruAttachment.setFileName("Certificate_RU.png"); // читаемое имя
+        multipart.addBodyPart(ruAttachment);
 
+        // Attachment: English certificate
+        MimeBodyPart enAttachment = new MimeBodyPart();
+        enAttachment.attachFile(new File(certPathEn));
+        enAttachment.setFileName("Certificate_EN.png");
+        multipart.addBodyPart(enAttachment);
+
+        // Set content and send
         message.setContent(multipart);
         Transport.send(message);
 
         System.out.printf("✅ Email sent to %s%n", to);
     }
+
 }

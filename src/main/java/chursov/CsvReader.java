@@ -3,17 +3,22 @@ package chursov;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CsvReader {
     public static List<Person> readCsv(String path) {
         List<Person> people = new ArrayList<>();
-        try (Reader in = new FileReader(path)) {
+        try (
+                Reader in = new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8)
+        ) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .withDelimiter(';')
                     .withHeader("ru", "eng", "email")
                     .withSkipHeaderRecord()
                     .parse(in);
@@ -26,7 +31,7 @@ public class CsvReader {
                 ));
             }
         } catch (IOException e) {
-            throw new RuntimeException("❌ Failed to read CSV: " + e.getMessage());
+            throw new RuntimeException("❌ Failed to read CSV: " + e.getMessage(), e);
         }
         return people;
     }

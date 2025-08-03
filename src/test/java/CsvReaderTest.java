@@ -23,9 +23,9 @@ class CsvReaderTest {
     @Test
     void testReadCsvReturnsCorrectData() throws IOException {
         // Arrange
-        String content = "ru,en,email\n" +
-                "Алиса Смит,Alice Smith,alice@example.com\n" +
-                "Боб Джонсон,Bob Johnson,bob@example.com\n";
+        String content = "ru;en;email\n" +
+                "Алиса Смит;Alice Smith;alice@example.com\n" +
+                "Боб Джонсон;Bob Johnson;bob@example.com\n";
 
         tempCsv = tempDir.resolve("test.csv");
         Files.writeString(tempCsv, content);
