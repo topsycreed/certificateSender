@@ -25,8 +25,8 @@
 src/main/resources/config.properties
 
 Содержимое:
-email.user=yourgmail@gmail.com
-email.password=app_specific_password_here
+- email.user=yourgmail@gmail.com
+- email.password=app_specific_password_here
 
 ❗ Никогда не коммить этот файл в Git!
 
