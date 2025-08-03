@@ -148,7 +148,7 @@ public class CertificateGenerator {
                 return Font.createFont(Font.TRUETYPE_FONT, new File(CUSTOM_FONT_PATH)).deriveFont((float) FONT_SIZE);
             }
         } catch (Exception e) {
-            System.err.println("⚠️ Не удалось загрузить кастомный шрифт. Используется системный.");
+            System.err.println("Не удалось загрузить кастомный шрифт. Используется системный.");
         }
         return new Font("Arial", Font.BOLD, FONT_SIZE);
     }

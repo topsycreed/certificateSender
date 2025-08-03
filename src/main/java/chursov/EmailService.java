@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.util.Properties;
 
@@ -42,7 +43,7 @@ public class EmailService {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(CONFIG.getProperty("email.user")));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(EMAIL_SUBJECT);
+        message.setSubject(MimeUtility.encodeText(EMAIL_SUBJECT, "UTF-8", null));
 
         Multipart multipart = new MimeMultipart();
 
@@ -67,7 +68,7 @@ public class EmailService {
         message.setContent(multipart);
         Transport.send(message);
 
-        System.out.printf("✅ Email sent to %s%n", to);
+        System.out.printf("Email sent to %s%n", to);
     }
 
 }

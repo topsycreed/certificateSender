@@ -31,7 +31,7 @@ public class CsvReader {
                 ));
             }
         } catch (IOException e) {
-            throw new RuntimeException("❌ Failed to read CSV: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to read CSV: " + e.getMessage(), e);
         }
         return people;
     }

@@ -14,7 +14,7 @@ public class Util {
             props.load(in);
             return props;
         } catch (IOException e) {
-            throw new RuntimeException("❌ Failed to load properties: " + e.getMessage());
+            throw new RuntimeException("Failed to load properties: " + e.getMessage());
         }
     }
 
