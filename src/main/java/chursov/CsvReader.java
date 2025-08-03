@@ -1,0 +1,33 @@
+package chursov;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CsvReader {
+    public static List<Person> readCsv(String path) {
+        List<Person> people = new ArrayList<>();
+        try (Reader in = new FileReader(path)) {
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .withHeader("ru", "eng", "email")
+                    .withSkipHeaderRecord()
+                    .parse(in);
+
+            for (CSVRecord r : records) {
+                people.add(new Person(
+                        r.get("ru").trim(),
+                        r.get("eng").trim(),
+                        r.get("email").trim()
+                ));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("❌ Failed to read CSV: " + e.getMessage());
+        }
+        return people;
+    }
+}

@@ -12,6 +12,8 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+src/main/resources/config.properties
+src/main/resources/csv/
 
 ### Eclipse ###
 .apt_generated
